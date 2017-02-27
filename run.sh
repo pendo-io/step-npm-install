@@ -35,7 +35,7 @@ npm_install() {
   local retries=3;
   for try in $(seq "$retries"); do
     info "Starting npm install, try: $try"
-    npm install $WERCKER_NPM_INSTALL_OPTIONS && return;
+    if npm install --link || npm install $WERCKER_NPM_INSTALL_OPTIONS; then return; fi
 
     if [ "$WERCKER_NPM_INSTALL_CLEAR_CACHE_ON_FAILED" == "true" ]; then
       clear_cache
